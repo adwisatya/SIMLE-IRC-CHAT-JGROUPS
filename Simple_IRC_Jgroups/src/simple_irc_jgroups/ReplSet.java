@@ -11,8 +11,11 @@ import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.Stack;
 import org.jgroups.JChannel;
 import org.jgroups.Message;
@@ -26,74 +29,184 @@ import simple_irc_jgroups.learning.SimpleChat;
  * @author adwisatya
  */
 public class ReplSet<T> extends ReceiverAdapter{
-    JChannel channel;
-    final Stack<T> stack=new Stack<T>();
-    String user_name = "aryya";
+    static JChannel channel;
+    final Set<T> set = new Set<T>() {
+
+        @Override
+        public int size() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public boolean isEmpty() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public boolean contains(Object o) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public Iterator<T> iterator() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public Object[] toArray() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public <T> T[] toArray(T[] a) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public boolean add(T e) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public boolean remove(Object o) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public boolean containsAll(Collection<?> c) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public boolean addAll(Collection<? extends T> c) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public boolean retainAll(Collection<?> c) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public boolean removeAll(Collection<?> c) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void clear() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+    };
+    private static final String username = System.getProperty("user.name", "n/a");;
     
-    public void push(T obj){
-        
+    public void add(T obj){
+        synchronized(set){
+            set.add(obj);
+        }
     }
-    public T pop(){
-        
-        return null;
+    public boolean contains(T obj){
+        synchronized(set){
+            set.contains(obj);
+        }
+        return true;
     }
-    public T top(){
-        
-        return null;
+    public boolean remove(T obj){
+        synchronized(set){
+            set.remove(obj);
+        }
+        return true;
     }
     private void start() throws Exception{
         channel=new JChannel();
         channel.setReceiver(this);
-        channel.connect("ChatCluster");
-        eventLoop();
+        channel.connect("ReplicatedStack");
+        channel.setDiscardOwnMessages(true);
         channel.getState(null, 10000);
-        channel.close();
+        
     }
     public void viewAccepted(View new_view) {
         System.out.println("** view: " + new_view);
     }
     public void receive(Message msg) {
-        String line=msg.getSrc() + ": " + msg.getObject();
-        System.out.println(line);
-        synchronized(stack) {
-            stack.push((T) line);
-        }
-        
-    }
-    private void eventLoop() {
-        BufferedReader in=new BufferedReader(new InputStreamReader(System.in));
-        while(true) {
-            try {
-                System.out.print("> "); System.out.flush();
-                String line=in.readLine().toLowerCase();
-                if(line.startsWith("quit") || line.startsWith("exit"))
-                    break;
-                line="[" + user_name + "] " + line;
-                Message msg=new Message(null, null, line);
-                channel.send(msg);
+        String line= (String)msg.getObject();
+        System.out.println("Received: " + msg.getSrc().toString() + ":"+line);
+        String[] splitted =  line.split(" ");
+        System.out.println(splitted[0].toLowerCase());
+            if(splitted[0].toLowerCase().equals("/push")){
+                System.out.println("1");
+                //synchronized(stack) {
+                    set.add((T) line);
+                //}
+            }else if(splitted[0].toLowerCase().equals("/pop")){
+                System.out.println("2");
+                //synchronized(stack) {
+                    set.remove((T) line);
+                //}
             }
-            catch(Exception e) {
-            }
-        }
     }
     public void getState(OutputStream output) throws Exception {
-        synchronized(stack) {
-            Util.objectToStream(stack, new DataOutputStream(output));
+        synchronized(set) {
+            Util.objectToStream(set, new DataOutputStream(output));
         }
     }
-    @SuppressWarnings("unchecked")
+    @Override
     public void setState(InputStream input) throws Exception {
-        List<String> list=(List<String>)Util.objectFromStream(new DataInputStream(input));
-        synchronized(stack) {
-            stack.clear();
-            //stack.addAll();
+        Stack<T> new_stack=(Stack<T>)Util.objectFromStream(new DataInputStream(input));
+        synchronized(set) {
+            set.clear();
+            set.addAll(new_stack);
         }
-        System.out.println("received state (" + list.size() + " messages in chat history):");
-        for(String str: list) {
+        System.out.println("received state (" + set.size() + " messages in chat history):");
+        for(T str: set) {
             System.out.println(str);
         }
     }
     public static void main(String[] args) throws Exception{
-        new ReplSet().start();
+        ReplSet<String> replset = new ReplSet<String>();
+        BufferedReader console = new BufferedReader(new InputStreamReader(System.in));        
+        Boolean result;
+        replset.start();
+        String input = null;
+        String [] splitted;
+        System.out.print("Type your message:");
+        input = console.readLine();
+        Message msg;
+        while(!input.equalsIgnoreCase("/EXIT")){
+            splitted =  input.split(" ");
+            switch (splitted[0].toLowerCase()){
+                case "/contain":
+                    msg = new Message(null, null, input);
+                    replset.channel.send(msg);
+                    result = replset.contains(splitted[1]);
+                    if(result == null){
+                        System.out.println("Stack kosong");
+                    }else{
+                        //System.out.println("Top dari stack adalah "+replset.top());
+                    }
+                    break;
+                case "/pop":
+                    msg = new Message(null, null, input);
+                    replset.channel.send(msg);
+                    
+                    result = replset.remove(splitted[1]);
+                    if(result == null){
+                        System.out.println("Stack kosong");
+                    }else{
+                        System.out.println("Top dari stack adalah "+result);
+                    }
+                    break;
+                case "/push":
+                    msg = new Message(null, null, input);
+                    replset.channel.send(msg);
+                    
+                    replset.add(splitted[1]);
+                    System.out.println(splitted[1] + "have been pushed to stack");
+                    break;
+                default:
+                    break;
+            }
+            input = console.readLine();
+        }
+        replset.channel.close();
     }
 }

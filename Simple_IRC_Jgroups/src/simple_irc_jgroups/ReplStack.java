@@ -26,9 +26,9 @@ import org.jgroups.util.Util;
  * @author adwisatya
  */
 public class ReplStack<T> extends ReceiverAdapter{
-    JChannel channel;
+    static JChannel channel;
     final Stack<T> stack=new Stack<T>();
-    String user_name = "aryya";
+    private static final String username = System.getProperty("user.name", "n/a");;
     
     public void push(T obj){
         synchronized(stack){
@@ -37,81 +37,61 @@ public class ReplStack<T> extends ReceiverAdapter{
     }
     public T pop(){
         synchronized(stack){
-            return stack.pop();
+            if(stack.empty()){
+                return null;
+            }else{
+                return stack.pop();
+            }
         }
     }
     public T top(){
         synchronized(stack){
-            return stack.lastElement();
+            if(stack.empty()){
+                return null;
+            }else{
+                return stack.peek();
+            }
         }
-        
     }
     private void start() throws Exception{
         channel=new JChannel();
         channel.setReceiver(this);
         channel.connect("ReplicatedStack");
-        eventLoop();
+        channel.setDiscardOwnMessages(true);
         channel.getState(null, 10000);
-        channel.close();
+        
     }
     public void viewAccepted(View new_view) {
         System.out.println("** view: " + new_view);
     }
     public void receive(Message msg) {
-        String line=msg.getSrc() + ": " + msg.getObject();
-        System.out.println(line);
-        synchronized(stack) {
-            stack.push((T) line);
-        }
-        
-    }
-    private void eventLoop() throws IOException {
-        BufferedReader in=new BufferedReader(new InputStreamReader(System.in));
-        while(true) {
-            try {
-                System.out.print("> "); System.out.flush();
-                String line=in.readLine().toLowerCase();
-                if(line.startsWith("quit") || line.startsWith("exit"))
-                    break;
-                line="[" + user_name + "] " + line;
-                Message msg=new Message(null, null, line);
-                channel.send(msg);
+        String line= (String)msg.getObject();
+        System.out.println("Received: " + msg.getSrc().toString() + ":"+line);
+        String[] splitted =  line.split(" ");
+        System.out.println(splitted[0].toLowerCase());
+            if(splitted[0].toLowerCase().equals("/push")){
+                System.out.println("1");
+                //synchronized(stack) {
+                    stack.push((T) line);
+                //}
+            }else if(splitted[0].toLowerCase().equals("/pop")){
+                System.out.println("2");
+                //synchronized(stack) {
+                    stack.pop();
+                //}
             }
-            catch(Exception e) {
-            }
-        }
-        BufferedReader console = new BufferedReader(new InputStreamReader(System.in));        
-        String input = null;
-        String [] splitted;
-        String result = null;
-        
-        System.out.print("Type your message:");
-        input = console.readLine();
-        while(!input.equalsIgnoreCase("/EXIT")){
-            splitted =  input.split(" ");
-            switch (splitted[0].toLowerCase()){
-                case "/nick":
-                    break;
-                case "/join":
-                    break;
-                case "/leave":
-                default:
-                    break;
-            }
-            input = console.readLine();
-        }  
     }
     public void getState(OutputStream output) throws Exception {
         synchronized(stack) {
             Util.objectToStream(stack, new DataOutputStream(output));
         }
     }
-    @SuppressWarnings("unchecked")
+    @Override
     public void setState(InputStream input) throws Exception {
-        Stack<T> stack=(Stack<T>)Util.objectFromStream(new DataInputStream(input));
+        Stack<T> new_stack=(Stack<T>)Util.objectFromStream(new DataInputStream(input));
         synchronized(stack) {
             stack.clear();
-            stack.addAll(stack);
+            stack.addAll(new_stack);
         }
         System.out.println("received state (" + stack.size() + " messages in chat history):");
         for(T str: stack) {
@@ -119,6 +99,51 @@ public class ReplStack<T> extends ReceiverAdapter{
         }
     }
     public static void main(String[] args) throws Exception{
-        new ReplStack().start();
+        ReplStack<String> replstack = new ReplStack<String>();
+        BufferedReader console = new BufferedReader(new InputStreamReader(System.in));        
+        String result;
+        replstack.start();
+        String input = null;
+        String [] splitted;
+        System.out.print("Type your message:");
+        input = console.readLine();
+        Message msg;
+        while(!input.equalsIgnoreCase("/EXIT")){
+            splitted =  input.split(" ");
+            switch (splitted[0].toLowerCase()){
+                case "/top":
+                    msg = new Message(null, null, input);
+                    replstack.channel.send(msg);
+                    result = replstack.top();
+                    if(result == null){
+                        System.out.println("Stack kosong");
+                    }else{
+                        System.out.println("Top dari stack adalah "+replstack.top());
+                    }
+                    break;
+                case "/pop":
+                    msg = new Message(null, null, input);
+                    replstack.channel.send(msg);
+                    
+                    result = replstack.pop();
+                    if(result == null){
+                        System.out.println("Stack kosong");
+                    }else{
+                        System.out.println("Top dari stack adalah "+result);
+                    }
+                    break;
+                case "/push":
+                    msg = new Message(null, null, input);
+                    replstack.channel.send(msg);
+                    
+                    replstack.push(splitted[1]);
+                    System.out.println(splitted[1] + "have been pushed to stack");
+                    break;
+                default:
+                    break;
+            }
+            input = console.readLine();
+        }
+        replstack.channel.close();
     }
 }
