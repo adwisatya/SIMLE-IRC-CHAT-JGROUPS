@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,85 +31,18 @@ import simple_irc_jgroups.learning.SimpleChat;
  */
 public class ReplSet<T> extends ReceiverAdapter{
     static JChannel channel;
-    final Set<T> set = new Set<T>() {
-
-        @Override
-        public int size() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-        @Override
-        public boolean isEmpty() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-        @Override
-        public boolean contains(Object o) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-        @Override
-        public Iterator<T> iterator() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-        @Override
-        public Object[] toArray() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-        @Override
-        public <T> T[] toArray(T[] a) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-        @Override
-        public boolean add(T e) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-        @Override
-        public boolean remove(Object o) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-        @Override
-        public boolean containsAll(Collection<?> c) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-        @Override
-        public boolean addAll(Collection<? extends T> c) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-        @Override
-        public boolean retainAll(Collection<?> c) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-        @Override
-        public boolean removeAll(Collection<?> c) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-        @Override
-        public void clear() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-    };
+    final HashSet<T> set = new HashSet<T>();
     private static final String username = System.getProperty("user.name", "n/a");;
     
-    public void add(T obj){
+    public boolean add(T obj){
         synchronized(set){
-            set.add(obj);
+            return set.add(obj);
         }
     }
     public boolean contains(T obj){
         synchronized(set){
-            set.contains(obj);
+            return set.contains(obj);
         }
-        return true;
     }
     public boolean remove(T obj){
         synchronized(set){
@@ -119,7 +53,7 @@ public class ReplSet<T> extends ReceiverAdapter{
     private void start() throws Exception{
         channel=new JChannel();
         channel.setReceiver(this);
-        channel.connect("ReplicatedStack");
+        channel.connect("ReplicatedSet");
         channel.setDiscardOwnMessages(true);
         channel.getState(null, 10000);
         
@@ -132,16 +66,12 @@ public class ReplSet<T> extends ReceiverAdapter{
         System.out.println("Received: " + msg.getSrc().toString() + ":"+line);
         String[] splitted =  line.split(" ");
         System.out.println(splitted[0].toLowerCase());
-            if(splitted[0].toLowerCase().equals("/push")){
+            if(splitted[0].toLowerCase().equals("/add")){
                 System.out.println("1");
-                //synchronized(stack) {
-                    set.add((T) line);
-                //}
-            }else if(splitted[0].toLowerCase().equals("/pop")){
+                set.add((T) splitted[1]);
+            }else if(splitted[0].toLowerCase().equals("/remove")){
                 System.out.println("2");
-                //synchronized(stack) {
-                    set.remove((T) line);
-                //}
+                set.remove((T) splitted[1]);
             }
     }
     public void getState(OutputStream output) throws Exception {
@@ -151,10 +81,10 @@ public class ReplSet<T> extends ReceiverAdapter{
     }
     @Override
     public void setState(InputStream input) throws Exception {
-        Stack<T> new_stack=(Stack<T>)Util.objectFromStream(new DataInputStream(input));
+        HashSet<T> new_set=(HashSet<T>)Util.objectFromStream(new DataInputStream(input));
         synchronized(set) {
             set.clear();
-            set.addAll(new_stack);
+            set.addAll(new_set);
         }
         System.out.println("received state (" + set.size() + " messages in chat history):");
         for(T str: set) {
@@ -174,33 +104,45 @@ public class ReplSet<T> extends ReceiverAdapter{
         while(!input.equalsIgnoreCase("/EXIT")){
             splitted =  input.split(" ");
             switch (splitted[0].toLowerCase()){
-                case "/contain":
-                    msg = new Message(null, null, input);
-                    replset.channel.send(msg);
+                case "/contains":
                     result = replset.contains(splitted[1]);
-                    if(result == null){
-                        System.out.println("Stack kosong");
+                    if(!result){
+                        if(replset.set.size()== 0){
+                            System.out.println("Set kosong");
+                        }else{
+                            System.out.println("Element tidak ditemukan");
+                        }
                     }else{
-                        //System.out.println("Top dari stack adalah "+replset.top());
+                        System.out.println("Terdapat "+splitted[1]+" dalam set");
                     }
                     break;
-                case "/pop":
+                case "/remove":
                     msg = new Message(null, null, input);
                     replset.channel.send(msg);
                     
-                    result = replset.remove(splitted[1]);
-                    if(result == null){
-                        System.out.println("Stack kosong");
+                    result = replset.contains(splitted[1]);
+                    if(!result){
+                        if(replset.set.size()== 0){
+                            System.out.println("Set kosong");
+                        }else{
+                            System.out.println("Element tidak ditemukan");
+                        }
                     }else{
-                        System.out.println("Top dari stack adalah "+result);
+                        if(replset.remove(splitted[1])){
+                            System.out.println(splitted[1]+" sudah dihapus dari set");
+                        }
                     }
                     break;
-                case "/push":
+                case "/add":
                     msg = new Message(null, null, input);
                     replset.channel.send(msg);
-                    
-                    replset.add(splitted[1]);
-                    System.out.println(splitted[1] + "have been pushed to stack");
+                    if(replset.contains(splitted[1])){
+                        System.out.println("Element sudah ada dalam set");
+                    }else{
+                        if(replset.add(splitted[1])){
+                            System.out.println(splitted[1] + " have been pushed to set");
+                        }
+                    }
                     break;
                 default:
                     break;

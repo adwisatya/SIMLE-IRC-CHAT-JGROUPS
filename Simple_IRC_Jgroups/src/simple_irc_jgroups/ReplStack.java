@@ -72,7 +72,7 @@ public class ReplStack<T> extends ReceiverAdapter{
             if(splitted[0].toLowerCase().equals("/push")){
                 System.out.println("1");
                 //synchronized(stack) {
-                    stack.push((T) line);
+                    stack.push((T) splitted[1]);
                 //}
             }else if(splitted[0].toLowerCase().equals("/pop")){
                 System.out.println("2");
@@ -129,7 +129,7 @@ public class ReplStack<T> extends ReceiverAdapter{
                     if(result == null){
                         System.out.println("Stack kosong");
                     }else{
-                        System.out.println("Top dari stack adalah "+result);
+                        System.out.println("Hasil pop adalah "+result);
                     }
                     break;
                 case "/push":
@@ -137,7 +137,7 @@ public class ReplStack<T> extends ReceiverAdapter{
                     replstack.channel.send(msg);
                     
                     replstack.push(splitted[1]);
-                    System.out.println(splitted[1] + "have been pushed to stack");
+                    System.out.println(splitted[1] + " have been pushed to stack");
                     break;
                 default:
                     break;
