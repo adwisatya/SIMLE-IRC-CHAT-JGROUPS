@@ -50,34 +50,34 @@ Implementasi JGroups untuk Replicated Stack and Replicated Set
 * `pop` pada client `3`
 * `exit`
 
-      #### Hasil Test Case
-      * pada client 1
-      ![alt tag](https://raw.githubusercontent.com/adwisatya/SIMLE-IRC-CHAT-JGROUPS/master/Simple_IRC_Jgroups/screenshot/stack1.png)
-      * pada client 2
-      ![alt tag](https://raw.githubusercontent.com/adwisatya/SIMLE-IRC-CHAT-JGROUPS/master/Simple_IRC_Jgroups/screenshot/stack2.png)
-      * pada client 3
-      ![alt tag](https://raw.githubusercontent.com/adwisatya/SIMLE-IRC-CHAT-JGROUPS/master/Simple_IRC_Jgroups/screenshot/stack3.png)
+#### Hasil Test Case
+* pada client 1
+![alt tag](https://raw.githubusercontent.com/adwisatya/SIMLE-IRC-CHAT-JGROUPS/master/Simple_IRC_Jgroups/screenshot/stack3.png)
+* pada client 2
+![alt tag](https://raw.githubusercontent.com/adwisatya/SIMLE-IRC-CHAT-JGROUPS/master/Simple_IRC_Jgroups/screenshot/stack1.png)
+* pada client 3
+![alt tag](https://raw.githubusercontent.com/adwisatya/SIMLE-IRC-CHAT-JGROUPS/master/Simple_IRC_Jgroups/screenshot/stack2.png)
 
-   ### Set
-      #### Skenario
-      * Jalankan 2 Client
-      * `contains` pada client `1` `(pengecekan set kosong)`
-      * `add` 5 pada client `2`
-      * `add` 6 pada Client `1`
-      * `remove` 5 pada client 1
-      * jalankan 1 client lagi  `(pengecekan 3 client)`
-      * `contains` 5 pada client `3`
-      * `contains` 3 pada client `3
-      * `add` 76 pada client `3`
-      * `contains` 76 pada client `1`
-      * `remove` 76 pada client `2`
-      * `remove` 7 pada client `1`
-      * `exit`
+### Set
+#### Skenario
+* Jalankan 2 Client
+* `contains` pada client `1` `(pengecekan set kosong)`
+* `add` 5 pada client `2`
+* `add` 6 pada Client `1`
+* `remove` 5 pada client 1
+* jalankan 1 client lagi  `(pengecekan 3 client)`
+* `contains` 5 pada client `3`
+* `contains` 3 pada client `3
+* `add` 76 pada client `3`
+* `contains` 76 pada client `1`
+* `remove` 76 pada client `2`
+* `remove` 7 pada client `1`
+* `exit`
 
-      #### Hasil
-      * pada client 1
-      ![alt tag](https://raw.githubusercontent.com/adwisatya/SIMLE-IRC-CHAT-JGROUPS/master/Simple_IRC_Jgroups/screenshot/set1.png)
-      * pada client 2
-      ![alt tag](https://raw.githubusercontent.com/adwisatya/SIMLE-IRC-CHAT-JGROUPS/master/Simple_IRC_Jgroups/screenshot/set2.png)
-      * pada client 3
-      ![alt tag](https://raw.githubusercontent.com/adwisatya/SIMLE-IRC-CHAT-JGROUPS/master/Simple_IRC_Jgroups/screenshot/set3.png)
+#### Hasil
+* pada client 1
+![alt tag](https://raw.githubusercontent.com/adwisatya/SIMLE-IRC-CHAT-JGROUPS/master/Simple_IRC_Jgroups/screenshot/set1.png)
+* pada client 2
+![alt tag](https://raw.githubusercontent.com/adwisatya/SIMLE-IRC-CHAT-JGROUPS/master/Simple_IRC_Jgroups/screenshot/set2.png)
+* pada client 3
+![alt tag](https://raw.githubusercontent.com/adwisatya/SIMLE-IRC-CHAT-JGROUPS/master/Simple_IRC_Jgroups/screenshot/set3.png)
