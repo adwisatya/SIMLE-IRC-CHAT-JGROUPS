@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="043240a0-d6e8-410e-baf3-e35b4f65238d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Simple_IRC_Jgroups/Readme.md" afterPath="$PROJECT_DIR$/Simple_IRC_Jgroups/Readme.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Readme.md" afterPath="$PROJECT_DIR$/Readme.md" />
     </list>
     <ignored path="SIMLE-IRC-CHAT-JGROUPS.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,10 +25,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ReplStack.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ReplStack.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Simple_IRC_Jgroups/src/simple_irc_jgroups/ReplStack.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.816976">
+            <state vertical-scroll-proportion="0.0">
               <caret line="5" column="8" selection-start-line="5" selection-start-column="8" selection-end-line="5" selection-end-column="26" />
               <folding>
                 <element signature="e#1688#1689#0" expanded="true" />
@@ -36,6 +36,19 @@
                 <element signature="e#3331#3339#0" expanded="true" />
               </folding>
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Readme.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Readme.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.055727553">
+              <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
+            <state />
           </provider>
         </entry>
       </file>
@@ -84,6 +97,7 @@
         <option value="$PROJECT_DIR$/Simple_IRC_Jgroups/src/simple_irc_jgroups/ReplStackTest.java" />
         <option value="$PROJECT_DIR$/Simple_IRC_Jgroups/src/simple_irc_jgroups/ReplSet.java" />
         <option value="$PROJECT_DIR$/Simple_IRC_Jgroups/Readme.md" />
+        <option value="$PROJECT_DIR$/Readme.md" />
       </list>
     </option>
   </component>
@@ -586,7 +600,7 @@
       <option name="number" value="Default" />
       <updated>1445925039745</updated>
       <workItem from="1445925043823" duration="119000" />
-      <workItem from="1445925184088" duration="10099000" />
+      <workItem from="1445925184088" duration="10630000" />
     </task>
     <task id="LOCAL-00001" summary="add md&#10;">
       <created>1445940705371</created>
@@ -622,7 +636,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10218000" />
+    <option name="totallyTimeSpent" value="10749000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="30" width="1368" height="739" extended-state="7" />
@@ -679,14 +693,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Simple_IRC_Jgroups/Readme.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Simple_IRC_Jgroups/src/simple_irc_jgroups/learning/SimpleChat.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-1.3319838">
@@ -711,20 +717,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Simple_IRC_Jgroups/Readme.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.89684814">
-          <caret line="51" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="MarkdownPreviewEditor">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Simple_IRC_Jgroups/src/simple_irc_jgroups/ReplStack.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.816976">
+        <state vertical-scroll-proportion="0.0">
           <caret line="5" column="8" selection-start-line="5" selection-start-column="8" selection-end-line="5" selection-end-column="26" />
           <folding>
             <element signature="e#1688#1689#0" expanded="true" />
@@ -732,6 +727,17 @@
             <element signature="e#3331#3339#0" expanded="true" />
           </folding>
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Readme.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.055727553">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
+        <state />
       </provider>
     </entry>
   </component>
