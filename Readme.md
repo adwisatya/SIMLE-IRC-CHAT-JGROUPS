@@ -36,7 +36,9 @@ Implementasi JGroups untuk Replicated Stack and Replicated Set
  4. Ketika kamu merasa kamu sudah cukup, ketik ```/exit``` untuk keluar dari program
 
 ## Testing
+
    ### Stack
+
       #### Skenario
       * Jalankan 2 Client
       * `top` pada client `1` `(pengecekan stack kosong)`
