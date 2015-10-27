@@ -52,11 +52,11 @@ Implementasi JGroups untuk Replicated Stack and Replicated Set
 
 #### Hasil Test Case
 * pada client 1
-![alt tag](https://raw.githubusercontent.com/adwisatya/SIMLE-IRC-CHAT-JGROUPS/master/Simple_IRC_Jgroups/screenshot/stack3.png)
-* pada client 2
 ![alt tag](https://raw.githubusercontent.com/adwisatya/SIMLE-IRC-CHAT-JGROUPS/master/Simple_IRC_Jgroups/screenshot/stack1.png)
-* pada client 3
+* pada client 2
 ![alt tag](https://raw.githubusercontent.com/adwisatya/SIMLE-IRC-CHAT-JGROUPS/master/Simple_IRC_Jgroups/screenshot/stack2.png)
+* pada client 3
+![alt tag](https://raw.githubusercontent.com/adwisatya/SIMLE-IRC-CHAT-JGROUPS/master/Simple_IRC_Jgroups/screenshot/stack3.png)
 
 ### Set
 #### Skenario

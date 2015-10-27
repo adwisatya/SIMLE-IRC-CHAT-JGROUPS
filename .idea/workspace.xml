@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="043240a0-d6e8-410e-baf3-e35b4f65238d" name="Default" comment="" />
+    <list default="true" id="043240a0-d6e8-410e-baf3-e35b4f65238d" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Readme.md" afterPath="$PROJECT_DIR$/Readme.md" />
+    </list>
     <ignored path="SIMLE-IRC-CHAT-JGROUPS.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -40,8 +42,8 @@
       <file leaf-file-name="Readme.md" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Readme.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.94427246">
-              <caret line="82" column="0" selection-start-line="82" selection-start-column="0" selection-end-line="82" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.60990715">
+              <caret line="58" column="121" selection-start-line="58" selection-start-column="121" selection-end-line="58" selection-end-column="121" />
               <folding />
             </state>
           </provider>
@@ -598,7 +600,7 @@
       <option name="number" value="Default" />
       <updated>1445925039745</updated>
       <workItem from="1445925043823" duration="119000" />
-      <workItem from="1445925184088" duration="14512000" />
+      <workItem from="1445925184088" duration="15079000" />
     </task>
     <task id="LOCAL-00001" summary="add md&#10;">
       <created>1445940705371</created>
@@ -634,7 +636,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14631000" />
+    <option name="totallyTimeSpent" value="15198000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="30" width="1368" height="739" extended-state="7" />
@@ -729,8 +731,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Readme.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.94427246">
-          <caret line="82" column="0" selection-start-line="82" selection-start-column="0" selection-end-line="82" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.60990715">
+          <caret line="58" column="121" selection-start-line="58" selection-start-column="121" selection-end-line="58" selection-end-column="121" />
           <folding />
         </state>
       </provider>
