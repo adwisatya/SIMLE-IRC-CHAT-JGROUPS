@@ -77,7 +77,12 @@ public class ReplStack<T> extends ReceiverAdapter{
             }else if(splitted[0].toLowerCase().equals("/pop")){
                 System.out.println("2");
                 //synchronized(stack) {
-                    stack.pop();
+                    if(stack.empty()){
+                        System.out.println("Stack kosong");
+                    }else{
+                        stack.pop();
+                    }
+
                 //}
             }
     }
